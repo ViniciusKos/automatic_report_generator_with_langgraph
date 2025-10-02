@@ -1,9 +1,15 @@
 # Automatic Report Generator with LangGraph
 
+
+
 ## Overview
 This project is an AI-powered business report generator that leverages natural language queries, DuckDB, and LangGraph workflow orchestration. It enables users to generate analytical reports and visualizations from retail data using simple English prompts. The system supports multiple queries, produces PDF reports, and is designed for extensibility and automation.
 
 ---
+
+## Demonstration
+Simply by running the script, the generator processes the queries and save them into a consolidate PDF
+![demo_report_generator](https://github.com/user-attachments/assets/6f7f4847-2779-465a-9091-93b96f9a00e2)
 
 ## Features
 - **Natural Language Querying:** Users can request business insights using plain English (e.g., "Show me the total sales per month").
