@@ -41,7 +41,7 @@ def download_online_retail_data(url: str = None) -> pd.DataFrame:
 
 def save_as_duckdb_table(df: pd.DataFrame, 
                          database_name:str = DATABASE_NAME,
-                         table_name: str = TABLE_NAME) -> : None
+                         table_name: str = TABLE_NAME) -> None:
     """
     Save a DataFrame as a DuckDB table.
     
@@ -52,7 +52,11 @@ def save_as_duckdb_table(df: pd.DataFrame,
     Returns:
         duckdb.DuckDBPyConnection: Connection to the DuckDB database.
     """
-    conn = duckdb.connect(database=f"{database_name}.duckdb")
+    # Ensure parent 'db' folder exists
+    db_folder = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'db')
+    os.makedirs(db_folder, exist_ok=True)
+    db_path = os.path.join(db_folder, f"{database_name}.duckdb")
+    conn = duckdb.connect(database=db_path)
     conn.execute(f"CREATE TABLE {table_name} AS SELECT * FROM df")
     conn.close()
 
@@ -72,8 +76,7 @@ def main():
     parser.add_argument("--saved_file_name", default=FILE_NAME, help="File name to be written with format e.g: data.csv")
     args = parser.parse_args()
 
-    df = download_online_retail_data(url = args.url, 
-                                saved_file_name = args.saved_file_name)
+    df = download_online_retail_data(url = args.url)
     
     save_as_duckdb_table(df, table_name="sales_data")
     print("DuckDB in-memory database created with table 'sales_data'")

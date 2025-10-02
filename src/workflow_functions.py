@@ -69,7 +69,10 @@ def connect_and_execute_sql_query(state: State) -> State:
     """
     sql_query = state.get('sql_query', '')
     try:
-        conn = duckdb.connect(database=f"{DATABASE_NAME}.duckdb")
+        db_folder = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'db')
+        os.makedirs(db_folder, exist_ok=True)
+        db_path = os.path.join(db_folder, f"{DATABASE_NAME}.duckdb")
+        conn = duckdb.connect(database=db_path)
         query_result = conn.execute(sql_query).df()
         state['query_result'] = query_result
         conn.close()

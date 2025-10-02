@@ -50,7 +50,11 @@ def generate_multi_query_report(queries, filename="Report_multiple_queries.pdf",
         list: List of final states for each query.
     """
     # Create PDF document
-    doc = SimpleDocTemplate(filename, pagesize=letter)
+    pdf_folder = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'reports')
+    os.makedirs(pdf_folder, exist_ok=True)
+    pdf_path = os.path.join(pdf_folder, filename)
+
+    doc = SimpleDocTemplate(pdf_path, pagesize=letter)
     styles = getSampleStyleSheet()
     
     # Use existing styles
